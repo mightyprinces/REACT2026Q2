@@ -2,7 +2,11 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-top: 20px;
+  margin: 20px 0 2px;
+}
+
+.searchExampleText {
+  font-size: 14px;
 }
 
 input {
@@ -24,19 +28,20 @@ input {
 button {
   padding: 0 10px;
   height: 40px;
+  min-width: 100px;
   border-radius: 0 4px 4px 0;
   border: solid 1px #3b3440;
-  background: #14121a;
+  background: #1f1c29;
   color: #ae96f8;
   box-sizing: border-box;
   cursor: pointer;
 
   &:hover {
-    background: #1f1c29;
+    background: #252130;
   }
 
   &:active {
-    background: #252130;
+    background: #2a2636;
   }
 
   &:disabled {
