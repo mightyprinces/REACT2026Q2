@@ -55,7 +55,7 @@ export default class Search extends Component<Props, State> {
           />
           <button
             type="submit"
-            disabled={!this.state.value.trim()}
+            // disabled={!this.state.value.trim()}
           >
             Search
           </button>

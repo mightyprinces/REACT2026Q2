@@ -15,6 +15,7 @@ export default class Results extends Component<Props> {
     if (isLoading) {
       return (
         <section className="results">
+          <span className="loader" role="status" aria-label="Loading"></span>
           <p>Loading...</p>
         </section>
       )

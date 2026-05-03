@@ -42,37 +42,51 @@ export default class App extends Component<object, State> {
         return response.json();
       })
       .then((data) => {
-        let items: CardType[];
+        if ('results' in data) {
+          return Promise.all(
+            data.results.map((pokemon: PokemonListItem) =>
+              fetch(pokemon.url)
+                .then((response) => {
+                  if (!response.ok) {
+                    throw new Error('Failed to load pokemon details');
+                  }
 
-        // на случай если у покемоной нет какой-то ability
+                  return response.json();
+                })
+                .then((details) => {
+                  const primaryAbility = details.abilities[0]?.ability.name ?? 'unknown';
+                  const hiddenAbility = details.abilities[1]?.ability.name ?? 'none';
+
+                  return {
+                    id: details.id,
+                    name: details.name,
+                    description: `
+                Primary ability: ${primaryAbility}, 
+                Hidden ability: ${hiddenAbility}`,
+                  };
+                })
+            )
+          );
+        }
+
         const primaryAbility = data.abilities[0]?.ability.name ?? 'unknown';
         const hiddenAbility = data.abilities[1]?.ability.name ?? 'none';
 
-        if ('results' in data) {
-          items = data.results.map((pokemon: PokemonListItem, index: number) => ({
-            id: index + 1,
-            name: pokemon.name,
+        return [
+          {
+            id: data.id,
+            name: data.name,
             description: `
-              Primary ability: ${primaryAbility}, 
-              Hidden ability: ${hiddenAbility}`
-          }));
-        } else {
-          items = [
-            {
-              id: data.id,
-              name: data.name,
-              description: `
-              Primary ability: ${primaryAbility}, 
-              Hidden ability: ${hiddenAbility}`
-            },
-          ];
-        }
-
+        Primary ability: ${primaryAbility}, 
+        Hidden ability: ${hiddenAbility}`,
+          },
+        ];
+      })
+      .then((items: CardType[]) => {
         this.setState({
           items,
           isLoading: false,
         });
-
       })
       .catch((error) => {
         this.setState({
@@ -81,6 +95,7 @@ export default class App extends Component<object, State> {
           isLoading: false,
         });
       });
+
   }
 
   handleSearch = (value: string) => {
