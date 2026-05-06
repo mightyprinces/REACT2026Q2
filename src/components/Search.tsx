@@ -34,6 +34,11 @@ export default class Search extends Component<Props, State> {
     event.preventDefault();
 
     const trimmedValue = this.state.value.trim();
+    const savedSearch = localStorage.getItem('searchTerm') ?? '';
+
+    if (trimmedValue === savedSearch) {
+      return;
+    }
 
     localStorage.setItem('searchTerm', trimmedValue);
     this.props.onSearch(trimmedValue);
@@ -54,7 +59,6 @@ export default class Search extends Component<Props, State> {
           <button
             type="submit"
             className='searchButton'
-            // disabled={!this.state.value.trim()}
           >
             Search
           </button>

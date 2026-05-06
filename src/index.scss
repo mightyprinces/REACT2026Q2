@@ -159,7 +159,6 @@ button {
   min-width: 100px;
   border-radius: 4px;
   border: solid 1px #3b3440;
-  // background: #1f1c29;
   background: var(--accent-bg);
   border-color: var(--accent-border);
   color: var(--accent);
@@ -211,7 +210,19 @@ input {
 }
 
 .errorBoundaryButton {
-  margin-top: 20px;
+  margin: 20px 0 40px;
+}
+
+.errorBoundaryFallback {
+  width: 100%;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 24px;
+  box-sizing: border-box;
 }
 
 .errorMessage {
@@ -219,9 +230,7 @@ input {
   min-height: 40px;
   min-width: 200px;
   border-radius: 4px;
-  // border: solid 1px #3b3440;
   background: var(--error-bg);
-  // border-color: var(--accent-border);
   color: var(--error-text);
   box-sizing: border-box;
 }
