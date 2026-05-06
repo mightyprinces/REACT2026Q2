@@ -5,8 +5,6 @@ import {
   type SyntheticEvent
 } from 'react';
 
-import styles from './Search.module.scss'
-
 type Props = {
   onSearch: (value: string) => void;
 };
@@ -45,7 +43,7 @@ export default class Search extends Component<Props, State> {
     return (
       <section>
         <form
-          className={styles.search}
+          className='search'
           onSubmit={this.handleSubmit}
         >
           <input
@@ -55,12 +53,13 @@ export default class Search extends Component<Props, State> {
           />
           <button
             type="submit"
+            className='searchButton'
             // disabled={!this.state.value.trim()}
           >
             Search
           </button>
         </form>
-        <p className={styles.searchExampleText}>example: bulbasaur, ivysaur</p>
+        <p className='searchExampleText'>example: bulbasaur, ivysaur</p>
       </section>
 
     )

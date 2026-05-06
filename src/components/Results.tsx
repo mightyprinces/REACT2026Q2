@@ -1,5 +1,5 @@
 import { Component, type ReactNode } from "react";
-import CardList from "./CardList/CardList";
+import CardList from "./CardList";
 import type { CardType } from "../types";
 
 type Props = {
@@ -24,7 +24,7 @@ export default class Results extends Component<Props> {
     if (error) {
       return (
         <section className="results">
-          <p>{error}</p>
+          <p className="errorMessage">{error}</p>
         </section>
       )
     }

@@ -1,7 +1,5 @@
 import { Component, type ReactNode } from 'react';
-
-import './App.css';
-import Search from './components/Search/Search';
+import Search from './components/Search';
 import Results from './components/Results';
 import type { CardType, PokemonListItem } from './types';
 
@@ -103,6 +101,10 @@ export default class App extends Component<object, State> {
     this.fetchPokemon(value);
   }
 
+  handleErrorBoundary = () => {
+    console.log('error boundary');
+  }
+
   render(): ReactNode {
     return (
       <>
@@ -113,6 +115,14 @@ export default class App extends Component<object, State> {
           isLoading={this.state.isLoading}
           error={this.state.error}
         />
+        <button
+          type="button"
+          className='errorBoundaryButton'
+          onClick={this.handleErrorBoundary}
+        // disabled={!this.state.value.trim()}
+        >
+          Error Boundary Button
+        </button>
       </>
     )
   }

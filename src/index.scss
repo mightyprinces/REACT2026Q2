@@ -10,6 +10,10 @@
   --social-bg: rgba(244, 243, 236, 0.5);
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --error-text: #e5b8b5;
+  --error-bg-1: #4e3534;
+  --error-bg: rgba(228, 105, 98, 0.25);
+  --error-accent: #e46962;
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
@@ -77,14 +81,8 @@ h2 {
 }
 
 h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 48px 0;
-
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
+  font-size: 36px;
+  margin: 30px 0 10px;
 }
 
 h2 {
@@ -92,10 +90,6 @@ h2 {
   line-height: 118%;
   letter-spacing: -0.24px;
   margin: 0 0 8px;
-
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
 }
 
 h3 {
@@ -105,21 +99,6 @@ h3 {
 
 p {
   margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
 }
 
 ul {
@@ -172,4 +151,77 @@ form {
   100% {
     transform: rotate(360deg);
   }
+}
+
+button {
+  padding: 0 16px;
+  height: 40px;
+  min-width: 100px;
+  border-radius: 4px;
+  border: solid 1px #3b3440;
+  // background: #1f1c29;
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+  color: var(--accent);
+  box-sizing: border-box;
+  cursor: pointer;
+
+  &:hover {
+    background: #252130;
+  }
+
+  &:active {
+    background: #2a2636;
+  }
+
+  &:disabled {
+    color: #3b3440;
+  }
+}
+
+.search {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 20px 0 2px;
+}
+
+.searchExampleText {
+  font-size: 14px;
+}
+
+input {
+  padding: 0 10px;
+  height: 40px;
+  border-radius: 4px 0 0 4px;
+  border: solid 1px #3b3440;
+  background: #14121a;
+  box-sizing: border-box;
+  width: 360px;
+  outline: none;
+
+
+  &:focus {
+    border: solid 1px #62566b;
+  }
+}
+
+.searchButton {
+  border-radius: 0 4px 4px 0;
+}
+
+.errorBoundaryButton {
+  margin-top: 20px;
+}
+
+.errorMessage {
+  padding: 16px;
+  min-height: 40px;
+  min-width: 200px;
+  border-radius: 4px;
+  // border: solid 1px #3b3440;
+  background: var(--error-bg);
+  // border-color: var(--accent-border);
+  color: var(--error-text);
+  box-sizing: border-box;
 }

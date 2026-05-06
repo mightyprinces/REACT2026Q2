@@ -1,6 +1,6 @@
 import { Component, type ReactNode } from 'react';
-import type { CardType } from '../../types';
-import Card from './Card/Card'
+import type { CardType } from '../types';
+import Card from './Card'
 
 type Props = {
   items: CardType[];
