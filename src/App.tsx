@@ -7,7 +7,6 @@ type State = {
   items: CardType[];
   isLoading: boolean;
   error: string;
-  shouldThrowError: boolean;
 }
 
 export default class App extends Component<object, State> {
@@ -15,7 +14,6 @@ export default class App extends Component<object, State> {
     items: [],
     isLoading: false,
     error: '',
-    shouldThrowError: false,
   }
 
   componentDidMount() {
@@ -99,20 +97,14 @@ export default class App extends Component<object, State> {
   }
 
   handleSearch = (value: string) => {
+    localStorage.setItem('searchTerm', value);
     this.fetchPokemon(value);
   }
 
   handleErrorBoundary = () => {
-    this.setState({
-      shouldThrowError: true,
-    });
   }
 
   render(): ReactNode {
-    if (this.state.shouldThrowError) {
-      throw new Error('Simulated application error');
-    }
-
     return (
       <>
         <h1>Let&apos;s search for Pokemon</h1>
