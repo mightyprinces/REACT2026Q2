@@ -21,14 +21,12 @@ describe('Card', () => {
       name: 'bulbasaur',
       description: 'Primary ability: overgrow, Hidden ability: chlorophyll',
     };
+
+    render(<Card item={item} />);
+
     const description = screen.getByText(
       'Primary ability: overgrow, Hidden ability: chlorophyll'
     );
-    render(<Card item={item} />);
-
-    // expect(
-    //   screen.getByText('Primary ability: overgrow, Hidden ability: chlorophyll')
-    // ).toBeInTheDocument();
 
     expect(description).toBeInTheDocument();
   });
