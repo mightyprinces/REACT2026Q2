@@ -1,11 +1,12 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import App from './App';
+import ErrorBoundary from './components/ErrorBoundary';
 import {
-  createFetchResponse,
-  pokemonListResponse,
   bulbasaurDetailsResponse,
-  pikachuDetailsResponse
+  createFetchResponse,
+  pikachuDetailsResponse,
+  pokemonListResponse,
 } from './test-utils/pokemonMocks';
 
 describe('App', () => {
@@ -15,6 +16,7 @@ describe('App', () => {
   });
 
   afterEach(() => {
+    vi.restoreAllMocks();
     vi.unstubAllGlobals();
   });
 
@@ -72,6 +74,26 @@ describe('App', () => {
     render(<App />);
 
     expect(await screen.findByText('Pokemon not found')).toBeInTheDocument();
+  });
+
+  it('renders error boundary fallback when error button is clicked', async () => {
+    const fetchMock = vi.mocked(fetch);
+
+    fetchMock
+      .mockResolvedValueOnce(createFetchResponse(pokemonListResponse))
+      .mockResolvedValueOnce(createFetchResponse(bulbasaurDetailsResponse));
+
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    render(
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
+    );
+
+    screen.getByRole('button', { name: 'Error Boundary Button' }).click();
+
+    expect(await screen.findByText('Something went wrong')).toBeInTheDocument();
   });
 
 });

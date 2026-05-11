@@ -32,18 +32,18 @@ export const bulbasaurDetailsResponse = {
 };
 
 export const pikachuDetailsResponse = {
-      id: 25,
-      name: 'pikachu',
-      abilities: [
-        {
-          ability: {
-            name: 'static',
-          },
-        },
-        {
-          ability: {
-            name: 'lightning-rod',
-          },
-        },
-      ],
-    }
+  id: 25,
+  name: 'pikachu',
+  abilities: [
+    {
+      ability: {
+        name: 'static',
+      },
+    },
+    {
+      ability: {
+        name: 'lightning-rod',
+      },
+    },
+  ],
+};
