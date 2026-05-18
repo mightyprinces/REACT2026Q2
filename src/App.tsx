@@ -1,39 +1,20 @@
-import { Component, type ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import Search from './components/Search';
 import Results from './components/Results';
 import type { CardType, PokemonListItem } from './types';
 
-type State = {
-  items: CardType[];
-  isLoading: boolean;
-  error: string;
-  shouldThrowError: boolean;
-}
+export default function App() {
+  const [items, setItems] = useState<CardType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [shouldThrowError, setShouldThrowError] = useState(false);
 
-export default class App extends Component<object, State> {
-  state: State = {
-    items: [],
-    isLoading: false,
-    error: '',
-    shouldThrowError: false,
-  }
-
-  componentDidMount() {
-    const savedSearch = localStorage.getItem('searchTerm') ?? '';
-    this.fetchPokemon(savedSearch);
-  }
-
-  fetchPokemon = (searchTerm: string) => {
-    this.setState({
-      isLoading: true,
-      error: '',
-    });
-
+  const loadPokemon = (searchTerm: string): Promise<CardType[]> => {
     const url = (searchTerm)
       ? `https://pokeapi.co/api/v2/pokemon/${searchTerm.toLowerCase()}`
       : `https://pokeapi.co/api/v2/pokemon?limit=20&offset=0`;
 
-    fetch(url)
+    return fetch(url)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Pokemon not found');
@@ -82,56 +63,64 @@ export default class App extends Component<object, State> {
           },
         ];
       })
+  }
+
+  useEffect(() => {
+    const savedSearch = localStorage.getItem('searchTerm') ?? '';
+    loadPokemon(savedSearch)
       .then((items: CardType[]) => {
-        this.setState({
-          items,
-          isLoading: false,
-        });
+        setItems(items);
+        setError('');
       })
       .catch((error) => {
-        this.setState({
-          items: [],
-          error: error.message,
-          isLoading: false,
-        });
+        setItems([]);
+        setError(error.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
+  }, [])
 
+  const handleSearch = (value: string) => {
+    setIsLoading(true);
+    setError('');
+    loadPokemon(value)
+      .then((items) => {
+        setItems(items);
+      })
+      .catch((error) => {
+        setItems([]);
+        setError(error.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
-  handleSearch = (value: string) => {
-    localStorage.setItem('searchTerm', value);
-    this.fetchPokemon(value);
+  const handleErrorBoundary = () => {
+    setShouldThrowError(true);
   }
 
-  handleErrorBoundary = () => {
-    this.setState({
-      shouldThrowError: true,
-    });
+  if (shouldThrowError) {
+    throw new Error('Simulated application error');
   }
 
-  render(): ReactNode {
-    if (this.state.shouldThrowError) {
-      throw new Error('Simulated application error');
-    }
-
-    return (
-      <>
-        <h1>Let&apos;s search for Pokemon</h1>
-        <Search onSearch={this.handleSearch} />
-        <Results
-          items={this.state.items}
-          isLoading={this.state.isLoading}
-          error={this.state.error}
-        />
-        <button
-          type="button"
-          className='errorBoundaryButton'
-          onClick={this.handleErrorBoundary}
-        >
-          Error Boundary Button
-        </button>
-      </>
-    )
-  }
-
+  return (
+    <>
+      <h1>Let&apos;s search for Pokemon</h1>
+      <Search onSearch={handleSearch} />
+      <Results
+        items={items}
+        isLoading={isLoading}
+        error={error}
+      />
+      <button
+        type="button"
+        className='errorBoundaryButton'
+        onClick={handleErrorBoundary}
+      >
+        Error Boundary Button
+      </button>
+    </>
+  )
 }
